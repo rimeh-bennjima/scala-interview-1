@@ -12,6 +12,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
  * Do not mind about the not implemented code
  */
 class WhatsWrong3 extends Actor {
+  /*we have to deal the case when the actor receive non expected message
+   */
 
   var internalState = "internal state"
 
@@ -23,9 +25,10 @@ class WhatsWrong3 extends Actor {
         case Failure(e) => e.printStackTrace()
       }
     }
+    case _         => println("unexpected message!")
   }
 
-  def handleResponse(r: String) = ??? // mutate internal state
+  def handleResponse(r: String): Unit = ??? // mutate internal state
 
   def queryAsyncServer(): Future[String] = ???
 }
