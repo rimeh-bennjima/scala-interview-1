@@ -1,8 +1,8 @@
 package com.particeep.test.async
 
 import scala.concurrent.Future
-
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.{ Failure, Success }
 
 /**
  * You have 2 webservices, we want to compute the sum of the 2 webservice call.
@@ -13,9 +13,16 @@ import scala.concurrent.ExecutionContext.Implicits.global
  * It's part of the exercise to handle error cases
  */
 object AsyncBasic {
-
-  def compute(id: String) = ???
-
+  def compute(id: String) = {
+    def parallely[A, B](f1: Future[A], f2: Future[B]): Future[(A, B)] = f1 zip f2
+    val numberOfCalls: Future[String Either Int] = parallely(Webservice1.call(id), Webservice2.call(id)).map {
+      case (Some(number1), Right(number2)) => Right(number1 + number2)
+      case (Some(number), Left(_))         => Right(number)
+      case (_, Right(number))              => Right(number)
+      case (_, Left(noValue))              => Left(noValue)
+    }
+    numberOfCalls.recover { case e: Exception => Left(s"Can not compute the calls: $e") }
+  }
 }
 
 object Webservice1 {

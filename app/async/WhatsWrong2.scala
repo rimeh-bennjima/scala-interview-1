@@ -27,14 +27,11 @@ object EnterpriseDao {
 }
 
 object WhatsWrong2 {
+//Review this code. What could be done better ? How would you do it ?
+  /* The future can be parallely and we should do for an option type getOrElse inside get because if we have None the get handle an exception. */
 
-  //Review this code. What could be done better ? How would you do it ?
   def getCEOAndEnterprise(ceo_id: Option[String]): Future[(Option[CEO], Option[Enterprise])] = {
-    for {
-      ceo        <- CEODao.byId(ceo_id.get)
-      enterprise <- EnterpriseDao.byCEOId(ceo_id.get)
-    } yield {
-      (ceo, enterprise)
-    }
+    def parallely[A, B](f1: Future[A], f2: Future[B]): Future[(A, B)] = f1 zip f2
+    parallely(CEODao.byId(ceo_id.getOrElse("")), EnterpriseDao.byCEOId(ceo_id.getOrElse("")))
   }
 }
