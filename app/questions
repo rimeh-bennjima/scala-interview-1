@@ -1,11 +1,35 @@
 
 1) Explain REST
+is a style of software architecture defining a set of constraints to be used to create web services.
+RESTful systems, are characterized by how they are stateless and separate the concerns of client and server.
+
 
 2) Explain the architectural style for the creation of a web API (client server communication, formatting language, number of servers, etc.)
 
+in the REST architectural style, the implementation of the client and the implementation of the server can be done
+independently without each knowing about the other.
+This means that we can change the code inside the client without affecting the operation of the server,
+also we can change the code in the server without make an operation in the client.
+
+Systems that follow the REST paradigm are stateless, that means that the client does not need to know anything about
+what state the server is in and vice versa.
+
+The communications between the client and the server consist in that the clients
+send requests to recover or modify resources, and the servers send responses to these requests.
+
+Communication can come from multiple clients or from a client to a server.
+
 3) What are the best practices when deploying an application in the cloud
+As an application developer, we should choose PaaS, because that the infrastructure is managed for us,
+so we can focus on your application code.
+
 
 4) What are your best strength : infra ? DB ? web ?
-Give us detail about it
+I worked our project with database Cassandra . it is a database of type Nosql.
 
 5) Among all the projects you have worked on. Which architecture do you enjoy the most? explain why ?
+I worked with the architecture CQRS (Command and Query Responsibility Segregation)
+I enjoy to work with this architecture because it separate between the read queries from db and the write command
+. The write in the db can be in the Future (async) also the CQRS adapts perfectly to Event Sourcing.
+With CQRS we separate the Interface(Api), the command Handler and the eventHandler, that help as to create many optimized microServices.
+
