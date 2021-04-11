@@ -1,5 +1,7 @@
 package com.particeep.test.basic
 
+import scala.annotation.tailrec
+
 /**
  * What is the complexity of the function ?
  *
@@ -14,15 +16,14 @@ object Refactoring {
 
   def getCategories(files: List[File]): List[String] = {
     val categories: List[String] = List()
-
-    if(files != null) {
-      for(file <- files) {
-        if(file.category != null && !categories.contains(file.category)) {
-          categories :+ file.category
-        }
+    @tailrec
+    def build(result: List[String], files: List[File]): List[String] = {
+      files match {
+        case File(_, category) :: xs if category.nonEmpty && !result.contains(category) => build(result :+ category, xs)
+        case File(_, _) :: xs                                                           => build(result, xs)
+        case Nil                                                                        => result
       }
     }
-
-    return categories
+    build(categories, files)
   }
 }

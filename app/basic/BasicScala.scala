@@ -16,12 +16,17 @@ object BasicScala {
    * input  : Map()
    * output : ""
    */
-  def encodeParamsInUrl(params: Map[String, String]): String = ???
+  def encodeParamsInUrl(params: Map[String, String]): String = {
+    val url = params.foldLeft[String]("") { case (acc, string) =>
+      acc.:++(s"""${string._1}=${string._2}&""")
+    }
+    if(url.nonEmpty) url.dropRight(1).patch(0, "?", 0) else url
+  }
 
   /**
    * Test if a String is an email
    */
-  def isEmail(maybeEmail: String): Boolean = ???
+  def isEmail(maybeEmail: String): Boolean = """(\w+)@([\w\.]+)""".r.unapplySeq(maybeEmail).isDefined
 
   /**
    * Compute i ^ n
@@ -34,6 +39,12 @@ object BasicScala {
    * input : (i = 99, n = 38997)
    * output : 1723793299
    */
-  def power(i: Int, n: Int): Int = ???
-
+  def power(i: Int, n: Int): Int = {
+    def compute(result: Int, numberOfOccurence: Int): Int = {
+      if(numberOfOccurence == 0) result
+      else
+        compute(result * i, numberOfOccurence - 1)
+    }
+    compute(1, n)
+  }
 }

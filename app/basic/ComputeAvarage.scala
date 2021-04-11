@@ -7,6 +7,8 @@ package com.particeep.test.basic
  */
 object ComputeAvarage {
 
-  def average(l: List[Double]) = ???
-
+  def average(l: List[Double]) = {
+    val (sum, length) = l.foldLeft((0.toDouble, 0.toDouble))({ case ((sum, length), x) => (x + sum, 1 + length) })
+    sum / length
+  }
 }
