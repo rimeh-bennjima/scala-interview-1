@@ -1,10 +1,8 @@
 package com.particeep.test.akka
 
 import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
 import akka.stream.scaladsl._
 import akka.{ Done, NotUsed }
-import java.util.concurrent.Future
 
 /**
  * Question about Akka Stream framework https://doc.akka.io/docs/akka/current/stream/index.html
@@ -27,8 +25,7 @@ object BasicStream {
     val evenNumberSource: Source[Int, NotUsed] = numberSource.via(isEvenFlow)
 
     //A Sink that will write its input onto the console
-    val consoleSink: Sink[Int, Future[Done]] = Sink.foreach[Int](println)
-
+    val consoleSink: Sink[Int, scala.concurrent.Future[Done]] = Sink.foreach[Int](i => println(i))
     //Connect the Source with the Sink and run it
     evenNumberSource.runWith(consoleSink)
   }
